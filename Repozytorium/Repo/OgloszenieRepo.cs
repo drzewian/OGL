@@ -17,10 +17,31 @@ namespace Repozytorium.Repo
             _db = db;
         }
 
+        public Ogloszenie GetOgloszenieById(int id)
+        {
+            Ogloszenie ogloszenie = _db.Ogloszenia.Find(id);
+            return ogloszenie;
+        }
+
         public IQueryable<Ogloszenie> PobierzOgloszenia()
         {
             _db.Database.Log = message => Trace.WriteLine(message);
             return _db.Ogloszenia.AsNoTracking();
+        }
+
+        public bool UsunOgloszenie(int id)
+        {
+            Ogloszenie ogloszenie = _db.Ogloszenia.Find(id);
+            _db.Ogloszenia.Remove(ogloszenie);
+            try
+            {
+                _db.SaveChanges();
+                return true;
+            }
+            catch(Exception ex)
+            {
+                return false;
+            }
         }
     }
 }
