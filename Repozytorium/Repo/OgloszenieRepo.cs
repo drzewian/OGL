@@ -29,18 +29,26 @@ namespace Repozytorium.Repo
             return _db.Ogloszenia.AsNoTracking();
         }
 
-        public bool UsunOgloszenie(int id)
+        public void SaveChanges()
         {
+            _db.SaveChanges();
+        }
+
+        public void UsunOgloszenie(int id)
+        {
+            UsunPowiazaneOgloszenieKategoria(id);
+
             Ogloszenie ogloszenie = _db.Ogloszenia.Find(id);
-            _db.Ogloszenia.Remove(ogloszenie);
-            try
+            _db.Ogloszenia.Remove(ogloszenie);            
+        }
+
+        private void UsunPowiazaneOgloszenieKategoria(int idOgloszenia)
+        {
+            var list = _db.OgloszenieKategoria.Where(o => o.OgloszenieID == idOgloszenia);
+
+            foreach(var item in list)
             {
-                _db.SaveChanges();
-                return true;
-            }
-            catch(Exception ex)
-            {
-                return false;
+                _db.OgloszenieKategoria.Remove(item);
             }
         }
     }

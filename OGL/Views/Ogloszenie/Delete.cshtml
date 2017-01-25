@@ -7,6 +7,13 @@
 }
 
 <h2>Usuń ogłoszenie nr @Model.Id</h2>
+@if(ViewBag.Blad ==true)
+{
+    <div class="alert alert-danger" role="alert">
+        Wystąpił błąd podczas usuwania.<br/>
+        Spróbuj ponownie.
+    </div>
+}
 
 <h3>Czy na pewno chcesz usuńąć?</h3>
 <div>

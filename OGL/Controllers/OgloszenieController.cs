@@ -102,7 +102,7 @@ namespace OGL.Controllers
         //}
 
         // GET: Ogloszenie/Delete/5
-        public ActionResult Delete(int? id)
+        public ActionResult Delete(int? id, bool? blad)
         {
             if (id == null)
             {
@@ -113,6 +113,10 @@ namespace OGL.Controllers
             {
                 return HttpNotFound();
             }
+            if(blad != null)
+            {
+                ViewBag.Blad = true;
+            }
             return View(ogloszenie);
         }
 
@@ -121,11 +125,15 @@ namespace OGL.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            for (int i = 0; i < 3; i++)
+            try
             {
-                if (_repo.UsunOgloszenie((int)id))
-                    break;
+                _repo.SaveChanges();                
             }
+            catch 
+            {
+                return RedirectToAction("Delete", new { id = id, blad = true });         
+            }
+            
             return RedirectToAction("Index");
         }
 
