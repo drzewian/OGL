@@ -2,6 +2,7 @@
 using Repozytorium.Models;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Diagnostics;
 using System.Linq;
 using System.Web;
@@ -15,6 +16,16 @@ namespace Repozytorium.Repo
         public OgloszenieRepo(IOglContext db)
         {
             _db = db;
+        }
+
+        public void Aktualizuj(Ogloszenie ogloszenie)
+        {
+            _db.Entry(ogloszenie).State = EntityState.Modified;
+        }
+
+        public void Dodaj(Ogloszenie ogloszenie)
+        {
+            _db.Ogloszenia.Add(ogloszenie);
         }
 
         public Ogloszenie GetOgloszenieById(int id)
