@@ -41,6 +41,13 @@ namespace Repozytorium.Migrations
                 role.Name = "Admin";
                 roleManager.Create(role);
             }
+
+            if(!roleManager.RoleExists("Pracownik"))
+            {
+                var role = new IdentityRole();
+                role.Name = "Pracownik";
+                roleManager.Create(role);
+            }
         }
 
         private void SeedUsers(OglContext context)
@@ -53,6 +60,38 @@ namespace Repozytorium.Migrations
                 var user = new Uzytkownik
                 {
                     UserName = "admin",
+                    Wiek = 12,
+                    PasswordHash = password
+                };
+                var adminResult = manager.Create(user);
+
+                if (adminResult.Succeeded)
+                    manager.AddToRole(user.Id, "Admin");
+            }
+
+            if (!context.Users.Any(u => u.UserName == "Marek"))
+            {
+                var passwordHash = new PasswordHasher();
+                string password = passwordHash.HashPassword("1234Abc");
+                var user = new Uzytkownik
+                {
+                    UserName = "marek@Awp.pl",
+                    Wiek = 12,
+                    PasswordHash = password
+                };
+                var adminResult = manager.Create(user);
+
+                if (adminResult.Succeeded)
+                    manager.AddToRole(user.Id, "Pracownik");
+            }
+
+            if (!context.Users.Any(u => u.UserName == "Prezes"))
+            {
+                var passwordHash = new PasswordHasher();
+                string password = passwordHash.HashPassword("1234Abc");
+                var user = new Uzytkownik
+                {
+                    UserName = "prezes@wp.pl",
                     Wiek = 12,
                     PasswordHash = password
                 };
