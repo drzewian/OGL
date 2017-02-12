@@ -75,7 +75,7 @@ namespace Repozytorium.Migrations
                 string password = passwordHash.HashPassword("1234Abc");
                 var user = new Uzytkownik
                 {
-                    UserName = "marek@Awp.pl",
+                    UserName = "marek@wp.pl",
                     Wiek = 12,
                     PasswordHash = password
                 };
